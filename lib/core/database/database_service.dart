@@ -47,46 +47,105 @@ class DatabaseService {
         created_at INTEGER DEFAULT (strftime('%s', 'now')),
         updated_at INTEGER DEFAULT (strftime('%s', 'now'))
       )
+      
     ''');
+    await db.execute('''
+  CREATE TABLE topics(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    module_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    order_index INTEGER NOT NULL,
+    FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
+  )
+  ''');
+
+  await db.execute('''
+    CREATE TABLE subtopics(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      topic_id INTEGER NOT NULL,
+      module_id INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      order_index INTEGER NOT NULL,
+      content TEXT NOT NULL,
+      FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE
+    )
+  ''');
+
+  await db.execute('''
+    CREATE TABLE exercises(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      topic_id INTEGER NOT NULL,
+      subtopic_id INTEGER NOT NULL,
+      question TEXT NOT NULL,
+      options TEXT NOT NULL, -- JSON array
+      correct_answer_index INTEGER NOT NULL,
+      explanation TEXT,
+      FOREIGN KEY (subtopic_id) REFERENCES subtopics(id) ON DELETE CASCADE
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE user_progress(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      topic_id INTEGER,
+      subtopic_id INTEGER,
+      progress REAL DEFAULT 0.0,
+      completed BOOLEAN DEFAULT 0,
+      completed_at INTEGER,
+      updated_at INTEGER DEFAULT (strftime('%s', 'now')),
+      FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE,
+      FOREIGN KEY (subtopic_id) REFERENCES subtopics(id) ON DELETE CASCADE
+    )
+  ''');
+
+  await db.execute('''
+    CREATE TABLE exercise_attempts(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      exercise_id INTEGER NOT NULL,
+      selected_answer_index INTEGER NOT NULL,
+      is_correct BOOLEAN NOT NULL,
+      attempted_at INTEGER DEFAULT (strftime('%s', 'now')),
+      FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
+    )
+  ''');
 
     // Insert sample data
-    await _insertSampleData(db);
+    // await _insertSampleData(db);
   }
 
   // Insert sample modules
-  Future<void> _insertSampleData(Database db) async {
-    final sampleModules = [
-      {
-        'title': 'Introduction to Flutter',
-        'description': 'Learn the basics of Flutter development',
-        'progress': 0.0,
-      },
-      {
-        'title': 'Dart Programming',
-        'description': 'Master the Dart programming language',
-        'progress': 0.5,
-      },
-      {
-        'title': 'State Management',
-        'description': 'Understand different state management approaches',
-        'progress': 0.0,
-      },
-      {
-        'title': 'API Integration',
-        'description': 'Learn how to integrate with REST APIs',
-        'progress': 1.0,
-      },
-      {
-        'title': 'Database with SQLite',
-        'description': 'Implement local storage using SQLite',
-        'progress': 0.2,
-      },
-    ];
+  // Future<void> _insertSampleData(Database db) async {
+  //   final sampleModules = [
+  //     {
+  //       'title': 'Introduction to Flutter',
+  //       'description': 'Learn the basics of Flutter development',
+  //       'progress': 0.0,
+  //     },
+  //     {
+  //       'title': 'Dart Programming',
+  //       'description': 'Master the Dart programming language',
+  //       'progress': 0.5,
+  //     },
+  //     {
+  //       'title': 'State Management',
+  //       'description': 'Understand different state management approaches',
+  //       'progress': 0.0,
+  //     },
+  //     {
+  //       'title': 'API Integration',
+  //       'description': 'Learn how to integrate with REST APIs',
+  //       'progress': 1.0,
+  //     },
+  //     {
+  //       'title': 'Database with SQLite',
+  //       'description': 'Implement local storage using SQLite',
+  //       'progress': 0.2,
+  //     },
+  //   ];
 
-    for (final module in sampleModules) {
-      await db.insert('modules', module);
-    }
-  }
+  //   for (final module in sampleModules) {
+  //     await db.insert('modules', module);
+  //   }
+  // }
 
 //   // Close database
   Future<void> close() async {

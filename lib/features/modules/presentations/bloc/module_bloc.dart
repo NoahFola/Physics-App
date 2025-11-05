@@ -41,7 +41,13 @@ class ModuleBloc extends Bloc<ModuleEvent, ModuleState> {
     final result = await getModulesUseCase();
     result.fold(
       (failure) => emit(ModuleError(failure.toString())),
-      (modules) => emit(ModulesLoaded(modules)),
+      (modules) {
+        print('BLoC received ${modules.length} modules'); // ← ADD THIS
+        for (final module in modules) {
+          print('Module ${module.id} has ${module.topics?.length} topics'); // ← ADD THIS
+        }   
+        emit(ModulesLoaded(modules));
+        },
     );
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/module_entity.dart';
-import '../../domain/entities/topic_entity.dart';
 import '../widgets/topic_list_item.dart';
 
 // Screen from Screenshot: ...164737.jpg
@@ -24,11 +23,14 @@ class ModuleDetailScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         itemCount: (module.topics?.length ?? 0) + 1, // +1 for the "About" card
         itemBuilder: (context, index) {
+          print('Building item $index, topics length: ${module.topics?.length}'); // ← ADD THIS
           if (index == 0) {
             return _buildAboutCard(context, module);
           }
           final topic = module.topics?[index - 1];
+          print('Topic at index ${index - 1}: $topic'); // ← ADD THIS
           if (topic == null) return const SizedBox.shrink(); // or some fallback
+          print('Topic is null, returning empty SizedBox'); // ← ADD THIS
 
           // --- UPDATED LOGIC ---
           // Determine status based on progress. No more "Locked" state.

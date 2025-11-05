@@ -8,12 +8,41 @@ import './features/modules/domain/entities/module_entity.dart';
 import './features/modules/domain/entities/topic_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../features/modules/presentations/bloc/module_bloc.dart';
+import 'core/database/database_service.dart';
+import 'features/modules/data/data_sources/local/seeders/module_seeder.dart';
 
 void main() async {
-  // You had 'di.init()' here, but your main_screen.dart has an import
-  // for '../modules/di/service_locator.dart', so I'll adjust the path
-  // to match your other files.
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Show loading screen immediately
+  runApp(const LoadingApp());
+  
+  // Initialize in background
+  await _initializeApp();
+}
+
+class LoadingApp extends StatelessWidget {
+  const LoadingApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(child: Text('Loading...')),
+      ),
+    );
+  }
+}
+
+Future<void> _initializeApp() async {
+  final dbService = DatabaseService();
+  // Delete old database
+  await dbService.deleteSqlDatabase();
+  final db = await dbService.database;
+  await ModuleSeeder.seed(db);
   await di.init();
+  
+  // Switch to main app
   runApp(const MyApp());
 }
 

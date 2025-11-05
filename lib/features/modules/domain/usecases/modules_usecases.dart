@@ -3,7 +3,6 @@
 import 'package:dartz/dartz.dart';
 import '../entities/module_entity.dart';
 import '../entities/topic_entity.dart';
-import '../repositories/module_repository.dart';
 import '../../../../core/error/failures.dart';
 
 abstract class GetModulesUseCase {

@@ -1,0 +1,112 @@
+{
+  "modules": [
+    {
+      "title": "Motion & Kinematics",
+      "description": "Learn the fundamentals of motion, displacement, velocity, and acceleration",
+      "progress": 0.5,
+      "topics": [
+        {
+          "title": "Introduction to Motion",
+          "order_index": 1,
+          "subtopic": {
+            "title": "Introduction to Motion",
+            "order_index": 1,
+            "content": "Motion is the change in position of an object with respect to time. In physics, we study motion to understand how objects move and what causes them to move.\n\n**Key Concepts:**\n• **Position:** Where an object is located\n• **Displacement:** Change in position (vector quantity)\n• **Distance:** Total path length (scalar quantity)\n• **Time:** Duration of motion\n\n**Types of Motion:**\n• **Uniform Motion:** Constant velocity (zero acceleration)\n• **Non-uniform Motion:** Velocity changes over time (non-zero acceleration)\n",
+            "exercises": [
+              {
+                "question": "What is the difference between displacement and distance?",
+                "options": [
+                  "Displacement is always greater than distance",
+                  "Distance is always greater than displacement",
+                  "Displacement is a vector, distance is a scalar",
+                  "There is no difference between them"
+                ],
+                "correct_answer_index": 2,
+                "explanation": "Displacement is a vector quantity (magnitude and direction), while distance is a scalar quantity (magnitude only)."
+              },
+              {
+                "question": "In physics, what does the term \"position\" refer to?",
+                "options": [
+                  "The speed of an object",
+                  "Where an object is located",
+                  "The direction of motion",
+                  "The acceleration of an object"
+                ],
+                "correct_answer_index": 1,
+                "explanation": "Position refers to the specific location of an object in a coordinate system."
+              },
+              {
+                "question": "What is a scalar quantity?",
+                "options": [
+                  "A quantity with magnitude only",
+                  "A quantity with direction only",
+                  "A quantity with both magnitude and direction",
+                  "A quantity that never changes"
+                ],
+                "correct_answer_index": 0,
+                "explanation": "A scalar quantity is defined by its magnitude alone (e.g., distance, speed, mass)."
+              }
+            ]
+          }
+        },
+        {
+          "title": "Speed and Velocity",
+          "order_index": 2,
+          "subtopic": {
+            "title": "Speed and Velocity",
+            "order_index": 1,
+            "content": "Speed is a scalar quantity that refers to how fast an object is moving. Velocity is a vector quantity that refers to the rate at which an object changes its position."
+          }
+        },
+        {
+          "title": "Acceleration",
+          "order_index": 3,
+          "subtopic": {
+            "title": "Acceleration",
+            "order_index": 1,
+            "content": "Acceleration is the rate of change of velocity with time. It is a vector quantity."
+          }
+        },
+        {
+          "title": "Equations of Motion",
+          "order_index": 4,
+          "subtopic": {
+            "title": "Equations of Motion",
+            "order_index": 1,
+            "content": "The equations of motion describe the behavior of a physical system in terms of its motion as a function of time."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Forces & Dynamics",
+      "description": "Understand Newton's laws and how forces affect motion",
+      "progress": 0.0,
+      "topics": [
+        {
+          "title": "Newton's First Law",
+          "order_index": 1,
+          "subtopic": {
+            "title": "Newton's First Law",
+            "order_index": 1,
+            "content": "An object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced force.",
+            "exercises": [
+              {
+                "question": "What is Newton's First Law also known as?",
+                "options": [
+                  "Law of Gravity",
+                  "Law of Inertia",
+                  "Law of Motion",
+                  "Law of Force"
+                ],
+                "correct_answer_index": 1,
+                "explanation": "Newton's First Law is also called the Law of Inertia."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

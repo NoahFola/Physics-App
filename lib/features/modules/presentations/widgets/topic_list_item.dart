@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/module_entity.dart';
 import '../../domain/entities/topic_entity.dart';
 
 // Enum to manage lesson status
-enum TopicStatus { locked, inProgress, completed }
+enum TopicStatus { inProgress, completed } // Removed "locked"
 
 // Widget for one card on the ModuleDetailScreen
 
@@ -23,10 +22,6 @@ class TopicListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    // This variable is no longer needed but safe to keep
-    // as `status` will never be `TopicStatus.locked`
-    final bool isLocked = status == TopicStatus.locked;
-
     IconData iconData;
     Color iconColor;
     String statusText = "";
@@ -38,31 +33,22 @@ class TopicListItem extends StatelessWidget {
         statusText = "Completed";
         break;
       case TopicStatus.inProgress:
+      default:
         iconData = Icons.play_circle_outline;
         iconColor = Colors.white;
-        break;
-      case TopicStatus.locked: // This case will no longer be hit
-      default:
-        iconData = Icons.lock;
-        iconColor = Colors.grey[600]!;
         break;
     }
 
     return Card(
       child: InkWell(
-        // --- UPDATED LOGIC ---
-        // onTap is now always active because `isLocked` will be false
-        onTap: isLocked
-            ? null
-            : () {
-                // Navigate to the lesson content screen
-                Navigator.pushNamed(
-                  context,
-                  '/lesson',
-                  arguments: {'topic': topic},
-                );
-              },
-        // --- END UPDATED LOGIC ---
+        // Always enabled since nothing is locked
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            '/lesson',
+            arguments: {'topic': topic},
+          );
+        },
         borderRadius: BorderRadius.circular(16.0),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -101,9 +87,7 @@ class TopicListItem extends StatelessWidget {
                 ],
               ),
 
-              // --- UPDATED LOGIC ---
-              // "333" Button (always visible)
-              // The `if (!isLocked)` check has been removed.
+              // Quiz Button (always visible)
               const SizedBox(height: 20.0),
               const Divider(color: Colors.white24, height: 1),
               const SizedBox(height: 12.0),
@@ -113,20 +97,16 @@ class TopicListItem extends StatelessWidget {
                   icon: const Icon(Icons.quiz_outlined, size: 20.0),
                   label: const Text('Start quiz'),
                   onPressed: () {
-                    // Navigate to the quiz, passing the exercises
-                    // from the *first* subtopic of this topic.
-                    if (topic.subTopics.isNotEmpty) {
-                      Navigator.pushNamed(
-                        context,
-                        '/quiz',
-                        arguments: topic.subTopics.first.exercises,
-                      );
-                    }
+                    // Navigate to quiz with exercises from the subtopic
+                    Navigator.pushNamed(
+                      context,
+                      '/quiz',
+                      arguments: topic.subTopics.exercises, // Direct access to single subtopic
+                    );
                   },
                   style: Theme.of(context).outlinedButtonTheme.style,
                 ),
               ),
-              // --- END UPDATED LOGIC ---
             ],
           ),
         ),

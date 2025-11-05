@@ -3,18 +3,23 @@ class Topic {
   final String moduleCode;
   final String title;
   final int order;
-  final List<Subtopic> subTopics; // Remove nullable (?)
+  final Subtopic subTopics;
 
   Topic({
     required this.id,
     required this.moduleCode,
     required this.title,
     required this.order,
-    List<Subtopic>? subTopics, // Make parameter optional
-  }) : subTopics = subTopics ?? []; // Default empty list
+    Subtopic? subTopics, // Make parameter optional
+  }) : subTopics = subTopics ?? Subtopic( // Default empty subtopic
+    id: '',
+    topicId: '',
+    title: 'No content available',
+    order: 0,
+    contentSections: 'Content will be added soon',
+    exercises: [],
+  );
 }
-
-
 
 class Subtopic {
   final String id;

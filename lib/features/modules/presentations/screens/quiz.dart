@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/module_entity.dart';
 import '../../domain/entities/topic_entity.dart';
 import '../bloc/module_bloc.dart';
 import '../widgets/quiz_widgets.dart';
@@ -183,6 +182,16 @@ class _QuizScreenState extends State<QuizScreen> {
               itemCount: widget.exercises.length,
               itemBuilder: (context, index) {
                 final exercise = widget.exercises[index];
+                final optionText = exercise.options[index];
+  
+                // ADD THESE DEBUG PRINTS:
+                print('=== OPTION DEBUG ===');
+                print('Index: $index');
+                print('Option text: "$optionText"');
+                print('Options list: ${exercise.options}');
+                print('Options length: ${exercise.options.length}');
+                print('Options type: ${exercise.options.runtimeType}');
+                print('===================');   
                 return QuizQuestionWidget(
                   exercise: exercise,
                   selectedOptionIndex: _selectedOptionIndex,
