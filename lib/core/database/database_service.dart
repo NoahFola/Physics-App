@@ -2,6 +2,7 @@
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:newtonium/core/database/pq_database_helper.dart'; // Import the helper
 
 class DatabaseService {
   // Singleton pattern
@@ -11,6 +12,10 @@ class DatabaseService {
   DatabaseService._internal();
 
   static Database? _database;
+  final PqDatabaseHelper _pqHelper = PqDatabaseHelper();
+
+
+
   Future<Database> get database async {
     if (_database != null) return _database!;
     // Initialize the DB first time it is accessed
@@ -28,12 +33,19 @@ class DatabaseService {
 
     // Set the version. This executes the onCreate function and provides a
     // path to perform database upgrades and downgrades.
-    return await openDatabase(
+    final db = await openDatabase( // Store the db instance
       path,
       onCreate: _createTables,
       version: 1,
       onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
     );
+
+    // Seed the Past Questions database (only runs if not seeded)
+    // This runs *after* open, not just on create.
+    
+    await _pqHelper.seedDatabase(db);
+
+    return db; // Return the instance
   }
 
   // Create tables
@@ -107,7 +119,7 @@ class DatabaseService {
       FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
     )
   ''');
-
+    await _pqHelper.createTables(db);
     // Insert sample data
     // await _insertSampleData(db);
   }
